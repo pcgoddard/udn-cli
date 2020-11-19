@@ -166,7 +166,7 @@ class UploadManager:
         hash_md5 = hashlib.md5()
 
         if directory:
-            path = os.path.json(directory, file_name)
+            path = os.path.join(directory, file_name)
         else:
             path = file_name
 
@@ -205,7 +205,8 @@ class MultiUploadManager(UploadManager):
 
         with open(metadata_file_path) as metadata_file:
             metadata = json.load(metadata_file)
-
+        
+        json_data = metadata
         self._validate_metadata(json_data)
         json_data['metadata']['md5'] = self._get_file_md5_hash(file_name, config.directory)
 
@@ -214,3 +215,4 @@ class MultiUploadManager(UploadManager):
         self._patient_uuid = metadata['patient_uuid']
         self._seq_request_id = str(metadata['seq_request_id'])
         self._metadata = metadata['metadata']
+        self._site = metadata['site']
